@@ -33,11 +33,11 @@ class Job extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'job_category');
     }
 
     public function attributes()
     {
-        return $this->hasMany(JobAttributeValue::class);
+        return $this->hasMany(JobAttributeValue::class)->with('attribute');
     }
 }

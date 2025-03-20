@@ -28,7 +28,7 @@ class JobSeeder extends Seeder
                 'salary_max' => $faker->numberBetween(7000, 15000),
                 'is_remote' => $faker->boolean,
                 'job_type' => $faker->randomElement(['full-time', 'part-time', 'contract', 'freelance']),
-                'status' => $faker->randomElement(['draft', 'published', 'archived']),
+                'status' => $faker->randomElement(array: ['draft', 'published', 'archived']),
                 'published_at' => now(),
             ]);
 
@@ -44,7 +44,7 @@ class JobSeeder extends Seeder
             ]);
 
             // Assign random categories
-            DB::table('job_category')->insert([
+            DB::table(table: 'job_category')->insert([
                 ['job_id' => $jobId, 'category_id' => $faker->randomElement($categories)],
             ]);
         }
