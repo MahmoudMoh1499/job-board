@@ -23,6 +23,12 @@ return new class extends Migration
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
+
+            // Add indexes for commonly filtered fields
+            $table->index('job_type');
+            $table->index('status');
+            $table->index('published_at');
+            $table->index('is_remote');
         });
     }
 
