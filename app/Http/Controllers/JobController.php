@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Services\JobFilterService;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        $jobs = Job::with(['languages', 'locations', 'categories', 'attributes'])
-            ->where('status', 'published');
+        // Get the filter string from the query parameters
+        $filterString = $request->query('filter');
 
-        $jobs = (new JobFilterService())->applyFilters($jobs, $request);
+        // Start building the query
+        $query = Job::query()
+            ->with(['languages', 'locations', 'categories', 'attributes']); // Eager load relationships
 
-        return response()->json($jobs->paginate(perPage: 10));
+        // Apply filters if a filter string is provided
+        if ($filterString) {
+            $filterService = new JobFilterService($query);
+            $query = $filterService->applyFilters($filterString);
+        }
+
+        // Paginate the results (10 items per page by default)
+        $perPage = $request->query('per_page', 10); // Allow customizing per_page via query parameter
+        $jobs = $query->paginate($perPage);
+
+        // Return the paginated results as JSON
+        return response()->json($jobs);
     }
 }
