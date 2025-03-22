@@ -1,0 +1,379 @@
+{
+  "info": {
+    "_postman_id": "5e892f45-7f20-4d1e-9b3d-3a6d12c52c6e",
+    "name": "Advanced API Filtering Examples",
+    "description": "A collection demonstrating various filter patterns for a jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Basic Field Filtering",
+      "item": [
+        {
+          "name": "Simple equality filter",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=job_type=full-time",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "job_type=full-time"
+                }
+              ]
+            },
+            "description": "Filter jobs by exact job type match"
+          }
+        },
+        {
+          "name": "Numeric comparison",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=salary_min>=70000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "salary_min>=70000"
+                }
+              ]
+            },
+            "description": "Filter jobs with minimum salary greater than or equal to 70000"
+          }
+        },
+        {
+          "name": "Boolean filter",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=is_remote=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "is_remote=true"
+                }
+              ]
+            },
+            "description": "Filter jobs that are remote only"
+          }
+        },
+        {
+          "name": "Text search with LIKE",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=title LIKE Developer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "title LIKE Developer"
+                }
+              ]
+            },
+            "description": "Search for jobs with 'Developer' in the title"
+          }
+        },
+        {
+          "name": "Enum with multiple values",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=job_type IN (full-time,contract)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "job_type IN (full-time,contract)"
+                }
+              ]
+            },
+            "description": "Filter jobs that are either full-time or contract"
+          }
+        },
+        {
+          "name": "Date filtering",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=published_at>2024-01-01",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "published_at>2024-01-01"
+                }
+              ]
+            },
+            "description": "Filter jobs published after January 1, 2024"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Relationship Filtering",
+      "item": [
+        {
+          "name": "Find jobs requiring specific languages",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=languages HAS_ANY (PHP,JavaScript)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "languages HAS_ANY (PHP,JavaScript)"
+                }
+              ]
+            },
+            "description": "Find jobs that require either PHP or JavaScript"
+          }
+        },
+        {
+          "name": "Find jobs in specific locations or remote",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=locations IS_ANY (New York,San Francisco,Remote)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "locations IS_ANY (New York,San Francisco,Remote)"
+                }
+              ]
+            },
+            "description": "Find jobs located in New York, San Francisco, or Remote"
+          }
+        },
+        {
+          "name": "Find jobs with exact category match",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=categories=(Backend Development)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "categories=(Backend Development)"
+                }
+              ]
+            },
+            "description": "Find jobs with exact Backend Development category"
+          }
+        },
+        {
+          "name": "Find jobs that have any categories defined",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=categories EXISTS",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "categories EXISTS"
+                }
+              ]
+            },
+            "description": "Find jobs that have at least one category defined"
+          }
+        }
+      ]
+    },
+    {
+      "name": "EAV Attribute Filtering",
+      "item": [
+        {
+          "name": "Filtering by numeric attribute",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=attribute:years_experience>=3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "attribute:years_experience>=3"
+                }
+              ]
+            },
+            "description": "Find jobs requiring at least 3 years of experience"
+          }
+        },
+        {
+          "name": "Filtering by text attribute",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=attribute:framework_version=Laravel 10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "attribute:framework_version=Laravel 10"
+                }
+              ]
+            },
+            "description": "Find jobs requiring Laravel 10 specifically"
+          }
+        },
+        {
+          "name": "Filtering by boolean attribute",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=attribute:has_benefits=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "attribute:has_benefits=true"
+                }
+              ]
+            },
+            "description": "Find jobs that offer benefits"
+          }
+        },
+        {
+          "name": "Filtering by select attribute with multiple options",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=attribute:seniority_level IN (Senior,Lead)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "attribute:seniority_level IN (Senior,Lead)"
+                }
+              ]
+            },
+            "description": "Find senior or lead level jobs"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex Queries with Logical Operators",
+      "item": [
+        {
+          "name": "AND operator",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=job_type=full-time AND is_remote=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "job_type=full-time AND is_remote=true"
+                }
+              ]
+            },
+            "description": "Find full-time jobs that are also remote"
+          }
+        },
+        {
+          "name": "OR operator",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=salary_min>=100000 OR is_remote=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "salary_min>=100000 OR is_remote=true"
+                }
+              ]
+            },
+            "description": "Find jobs with high salary OR remote jobs"
+          }
+        },
+        {
+          "name": "Grouping with parentheses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=(job_type=full-time AND salary_min>=80000) OR (job_type=contract AND salary_min>=120000)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "(job_type=full-time AND salary_min>=80000) OR (job_type=contract AND salary_min>=120000)"
+                }
+              ]
+            },
+            "description": "Find well-paid full-time jobs or very well-paid contract jobs"
+          }
+        },
+        {
+          "name": "Complex filter combining multiple conditions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=(job_type=full-time AND (languages HAS_ANY (PHP,JavaScript))) AND (locations IS_ANY (New York,Remote)) AND attribute:years_experience>=3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "(job_type=full-time AND (languages HAS_ANY (PHP,JavaScript))) AND (locations IS_ANY (New York,Remote)) AND attribute:years_experience>=3"
+                }
+              ]
+            },
+            "description": "Find full-time PHP/JS jobs in NY or remote that require 3+ years experience"
+          }
+        },
+        {
+          "name": "Mixed relationships and attributes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/jobs?filter=languages HAS_ANY (PHP) AND attribute:framework_version=Laravel 10 AND categories=(Backend Development)",
+              "host": ["{{base_url}}"],
+              "path": ["api", "jobs"],
+              "query": [
+                {
+                  "key": "filter",
+                  "value": "languages HAS_ANY (PHP) AND attribute:framework_version=Laravel 10 AND categories=(Backend Development)"
+                }
+              ]
+            },
+            "description": "Find PHP Laravel 10 backend development jobs"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    }
+  ]
+}
