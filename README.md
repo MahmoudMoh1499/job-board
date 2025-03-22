@@ -32,6 +32,8 @@ A robust Laravel application that manages job listings with complex filtering ca
     - [Indexing Strategy](#indexing-strategy)
     - [Query Execution](#query-execution)
     - [Future Scalability](#future-scalability)
+  - [API Testing](#api-testing)
+    - [Postman Collection](#postman-collection)
 
 ## Features
 
@@ -283,3 +285,22 @@ Several strategies were implemented to ensure query efficiency:
 - Implement caching layer for common queries
 - Add rate limiting for API endpoints
 - Consider read replicas for high-traffic deployments
+
+
+## API Testing
+### Postman Collection
+
+The repository includes a comprehensive Postman collection that demonstrates all the filtering capabilities of the API. The collection is organized into different categories of filtering examples:
+
+- **Basic Field Filtering**: Simple equality, numeric comparison, boolean, text search, and date filtering
+- **Relationship Filtering**: Examples for filtering based on related data like languages, locations, and categories
+- **EAV Attribute Filtering**: Filtering by dynamic attributes in the EAV system
+- **Complex Queries**: Advanced examples combining multiple conditions with logical operators
+
+To use the collection:
+
+1. Import `Advanced API Filtering Examples.json` into Postman
+2. Update the `base_url` variable in your Postman environment to match your local or production API URL
+3. Run the requests to see examples of the filtering syntax in action
+
+This collection serves as both documentation and a testing tool for the API's filtering capabilities.
